@@ -14,11 +14,7 @@ This project automates capability screening and diagnostic reporting to help eng
 
 | Dashboard | Purpose | Demo |
 | --- | --- | --- |
-| Test Capability Report | Cpk screening, parameter trends, lot/tester/site distributions, and engineering priorities | [Open interactive dashboard](https://kenbugasto.github.io/semiconductor-test-capability-analytics/demo/semiconductor_test_capability_dashboard.html) |
-
-[View the HTML source on GitHub](https://github.com/kenbugasto/semiconductor-test-capability-analytics/blob/main/demo/semiconductor_test_capability_dashboard.html)
-
-*The interactive link requires GitHub Pages to be enabled. The report loads Plotly from a CDN, so an internet connection is needed.*
+| Test Capability Report | Cpk screening, parameter trends, and lot/tester/site diagnostics | [🚀 Open Interactive Dashboard](https://kenbugasto.github.io/semiconductor-test-capability-analytics/demo/semiconductor_test_capability_dashboard.html) |
 
 ## ⚙️ Pipeline Workflow
 
