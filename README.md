@@ -33,6 +33,23 @@ flowchart LR
 
 **📸 Screenshot to add — Databricks:** Pipeline/workflow overview showing the batch or streaming processing stages. Suggested file: `images/databricks_pipeline.png`.
 
+## ▶️ How to Run / Reproduce
+
+**Requirements:** An Azure Databricks workspace with Unity Catalog access, permission to create the required catalog/schema objects and volumes, and access to the project notebooks, jobs, and pipeline definitions. **Power BI Desktop** is optional for viewing or updating the report. Cloud compute and storage may incur charges.
+
+This is a **cloud lakehouse project**, not a standalone Python script. The execution order below describes the architecture; exact notebook paths, job names, permissions, and deployment commands must be confirmed against the published repository before this becomes a one-command reproducible setup.
+
+1. **Prepare the workspace.** Import or clone the repository into Databricks. Configure a development environment and verify permissions for the `semiconplus_portfolio` catalog, schemas, and Unity Catalog landing volumes. Do not commit workspace tokens, credentials, or sensitive configuration.
+2. **Stage demonstration inputs.** Upload the anonymized/source-backed sample files to their expected landing volume paths. Stage simulated retest/equipment inputs separately. For the streaming demonstration, use the configured JSON input volume.
+3. **Run batch ingestion and transformations.** Execute the repository's configured notebooks/jobs in dependency order: reference and source ingestion → Bronze → Silver → Gold dimensions → Gold facts/marts → secure views. Confirm notebook/job paths from the repository rather than assuming filenames.
+4. **Run the streaming demonstration (optional).** Start the configured Databricks streaming pipeline and provide sample JSON events. Verify Bronze/Silver streaming tables, late-data handling, and `gold.mart_streaming_yield_5m`. Stop compute after validation to control costs.
+5. **Validate outputs.** Review `monitoring.data_quality_results`, `monitoring.ingestion_audit`, relevant `quarantine` tables, and operational workflow logs. Check that Gold and secure-view results are populated and KPI denominators are valid.
+6. **Open the Power BI report (optional).** In Power BI Desktop, configure the Databricks connection and credentials for your own workspace, refresh the Import model, and inspect the three report pages. A Databricks pipeline run alone does **not** refresh an imported Power BI semantic model.
+
+**Reproducibility note:** This README does not claim that the public repository already includes every sample input, deployment configuration, or executable job dependency. Add exact commands and verified paths after the repository and workflow definitions are checked. Never publish production data or credentials.
+
+---
+
 ## 🧩 Data Modeling and Warehousing
 
 SemiconPlus uses an **OLAP-oriented dimensional model** for analytical queries, rather than acting as an OLTP transaction system.
