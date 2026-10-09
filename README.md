@@ -10,13 +10,17 @@ Semiconductor test capability investigations involve comparing large volumes of 
 
 This project automates capability screening and diagnostic reporting to help engineers prioritize parameters for investigation and review potential sources of variation.
 
-## 🖥️ Interactive Demo
+## 🚀 Interactive Demo
 
 | Dashboard | Purpose | Demo |
 | --- | --- | --- |
-| Test Capability Report | Cpk screening, parameter trends, and lot/tester/site diagnostics | [🚀 Open Interactive Dashboard](https://kenbugasto.github.io/semiconductor-test-capability-analytics/demo/semiconductor_test_capability_dashboard.html) |
+| Test Capability Report | Cpk screening, parameter trends, lot/tester/site distributions, and engineering priorities | [Open](https://kenbugasto.github.io/semiconductor-test-capability-analytics/demo/semiconductor_test_capability_dashboard.html) |
 
-## ⚙️ Pipeline Workflow
+HTML demos open directly in a browser without Python or a database connection, once GitHub Pages is published. Plotly charts require an internet connection.
+
+## ⚙️ Workflow and How to Run
+
+### Processing Workflow
 
 1. Generate 30 days of synthetic test measurements covering **100 parameters, 118 sublots, 4 testers, and 8 sites per tester**.
 2. Validate records and separate missing values, duplicates, and invalid tester entries.
@@ -50,7 +54,7 @@ It analyzes measurement distributions, Cpk performance, parameter drift, and tes
 
 Results support engineering investigation; they do not automatically approve specification changes or determine lot disposition.
 
-## ▶️ How to Run
+### Run Locally
 
 **Requirements:** Python with compatible versions of Pandas, NumPy, XlsxWriter, and OpenPyXL. VS Code with the Python and Jupyter extensions is recommended for the notebook.
 
