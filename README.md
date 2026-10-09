@@ -1,31 +1,33 @@
 # 📊 Semiconductor Test Capability & SPC Analytics
 
-Synthetic semiconductor test analytics pipeline built with **Python, Pandas, NumPy, XlsxWriter, and Plotly**. Automates test-data validation, statistical capability analysis, and interactive HTML reporting for lot, tester, and test-site investigations.
+Synthetic semiconductor test analytics pipeline built with **Python, Pandas, NumPy, XlsxWriter, and Plotly**. Automates measurement validation, statistical capability analysis, and interactive HTML reporting for lot, tester, and test-site investigations.
 
-> **Data disclaimer:** All datasets, lot identifiers, tester names, site IDs, and specification limits are synthetic. No proprietary manufacturing or customer-sensitive information is included.
+> **Public portfolio:** All measurements, lots, testers, site identifiers, and specification limits are synthetic. No proprietary manufacturing or customer-sensitive information is included.
 
 ## 🔎 Problem and Engineering Value
 
-Semiconductor test capability investigations involve reviewing measurement distributions across production lots, testers, and test sites. Manual analysis makes it difficult to identify parameter drift, tester-related shifts, and process variation.
+Semiconductor test capability investigations involve comparing large volumes of measurement data across lots, testers, and sites. Manual analysis makes it difficult to identify parameter drift, tester-related shifts, and process variation.
 
-This project automates capability screening and diagnostic reporting to help engineers identify problematic parameters, investigate potential causes, and prioritize engineering actions.
+This project automates capability screening and diagnostic reporting to help engineers prioritize parameters for investigation and review potential sources of variation.
 
 ## 🖥️ Interactive Demo
 
 | Dashboard | Purpose | Demo |
 | --- | --- | --- |
-| Test Capability Report | Cpk screening, lot/tester/site distributions, parameter trends, and engineering action priorities | [Open dashboard](demo/semiconductor_test_capability_dashboard.html) |
+| Test Capability Report | Cpk screening, parameter trends, lot/tester/site distributions, and engineering priorities | [Open interactive dashboard](https://kenbugasto.github.io/semiconductor-test-capability-analytics/demo/semiconductor_test_capability_dashboard.html) |
 
-> **GitHub Pages:** After publishing the `demo/` folder through GitHub Pages, replace the relative link above with the verified public dashboard URL.
+[View the HTML source on GitHub](https://github.com/kenbugasto/semiconductor-test-capability-analytics/blob/main/demo/semiconductor_test_capability_dashboard.html)
 
-## 🔄 Pipeline Workflow
+*The interactive link requires GitHub Pages to be enabled. The report loads Plotly from a CDN, so an internet connection is needed.*
 
-1. Generate 30 days of synthetic test data covering **100 parameters, 118 lots, 4 testers, and 8 test sites per tester**.
+## ⚙️ Pipeline Workflow
+
+1. Generate 30 days of synthetic test measurements covering **100 parameters, 118 sublots, 4 testers, and 8 sites per tester**.
 2. Validate records and separate missing values, duplicates, and invalid tester entries.
-3. Calculate lot-level and periodic statistics, including mean, standard deviation, Cpu, Cpl, and Cpk.
-4. Screen for capability failures and investigate parameter drift, tester shifts, increased variation, and sudden excursions.
-5. Generate diagnostic distributions, engineering action lists, and monthly specification-limit review candidates.
-6. Export interactive HTML dashboards, CSV datasets, and Excel validation records.
+3. Calculate lot-level and periodic statistics: mean, standard deviation, Cpu, Cpl, and Cpk.
+4. Screen for capability failures, parameter drift, tester shifts, increased variation, and sudden excursions.
+5. Prepare diagnostic plots and monthly specification-limit review candidates.
+6. Export an interactive HTML dashboard, CSV datasets, and an Excel data-quality log.
 
 ## 📐 Capability Definitions
 
@@ -33,38 +35,76 @@ This project automates capability screening and diagnostic reporting to help eng
 
 - **Cpu:** (USL − Mean) / (3 × Standard Deviation)
 - **Cpl:** (Mean − LSL) / (3 × Standard Deviation)
-- **USL / LSL:** Upper and lower specification limits.
+- **USL / LSL:** Upper and lower specification limits
 
-| Cpk | Classification |
+| Cpk | Project screening category |
 | --- | --- |
-| Cpk < 1.33 | FAIL |
-| 1.33 ≤ Cpk < 1.67 | WARNING |
-| 1.67 ≤ Cpk < 2.00 | 5σ Parameters |
-| Cpk ≥ 2.00 | 6σ Parameters |
+| Below 1.33 | FAIL |
+| 1.33 to below 1.67 | WARNING |
+| 1.67 to below 2.00 | 5σ Parameters |
+| 2.00 and above | 6σ Parameters |
 
-These are **project-defined screening categories**, not universal manufacturing acceptance criteria.
+These are **project-defined screening thresholds**, not universal manufacturing acceptance criteria.
 
-## ⚠️ SPC Scope and Limitations
+## 📌 SPC Scope and Limitations
 
-This project focuses on **process capability analysis and trend monitoring**, rather than a complete classical Statistical Process Control (SPC) implementation.
+This project focuses on **process capability analysis and trend monitoring**, not a complete classical Statistical Process Control (SPC) implementation.
 
-It evaluates measurement distributions, Cpk performance, parameter drift, and tester/site variation. It **does not implement statistical control charts** such as X-bar/R or I-MR, or automated Nelson/Western Electric control rules.
+It analyzes measurement distributions, Cpk performance, parameter drift, and tester/site variation. It does **not** implement X-bar/R or I-MR control charts or automated Nelson/Western Electric control rules. Formal production capability assessments also require appropriate checks of process stability, distribution assumptions, and measurement-system suitability.
 
-Capability results support engineering investigation and do not automatically determine production lot disposition. Formal production capability assessment would also require appropriate process-stability, distribution, and measurement-system checks.
+Results support engineering investigation; they do not automatically approve specification changes or determine lot disposition.
+
+## ▶️ How to Run
+
+**Requirements:** Python with compatible versions of Pandas, NumPy, XlsxWriter, and OpenPyXL. VS Code with the Python and Jupyter extensions is recommended for the notebook.
+
+**1. Install dependencies** in your Python environment:
+
+```bash
+python -m pip install numpy pandas xlsxwriter openpyxl
+```
+
+Or, from a VS Code/Jupyter notebook cell, install into the active kernel:
+
+```python
+%pip install numpy pandas xlsxwriter openpyxl
+```
+
+**2. Run either version:**
+
+- **Notebook:** Open `Semiconductor_Test_Capability_Portfolio_V6.ipynb`, select the Python kernel, and choose **Run All**.
+- **Python script:** Run `python renesas_semiconductor_spc_portfolio_updated_v6.py` from the project directory.
+
+**3. Review the generated `output/` folder.** Key files include:
+
+| Output | Purpose |
+| --- | --- |
+| `semiconductor_test_capability_dashboard.html` | Interactive capability and diagnostic report |
+| `lot_parameter_capability.csv` | Lot-level capability calculations |
+| `period_capability_summary.csv` | Periodic capability summaries |
+| `monthly_limit_recommendations.csv` | Proposed limits for engineering review |
+| `daily_extraction_manifest.csv` | Daily record-count tracking |
+| `cleaned_data_records.xlsx` | Invalid/duplicate record log |
+
+Open `output/semiconductor_test_capability_dashboard.html` in a web browser. The script generates synthetic data locally and does not require company systems, FTP access, or a production database.
+
+## 🏭 Production Automation Reference
+
+The synthetic portfolio is a **standalone demonstration**, inspired by a separate production VCL test-capability reporting workflow.
+
+In the production workflow, the reporting tool runs **every three hours starting at 06:00**. At **06:00 the following day**, the prior day's runs are consolidated into a full-day report. This supports both intraday monitoring and a complete daily engineering review.
+
+The production tool also packages large HTML reports into dated ZIP archives and applies short-term output retention. **These scheduling, consolidation, and retention operations are not implemented by the synthetic portfolio notebook.**
 
 ## 🛠️ Engineering Decisions
 
-- **Synthetic production simulation:** Reproducible datasets with controlled drift, tester shifts, increased variation, and excursions.
-- **Data-quality traceability:** Invalid and duplicate records are retained separately from valid measurements.
-- **Production-style lot assignment:** Each synthetic sublot is assigned to one tester, with eight test sites represented.
-- **Interactive diagnostics:** Plotly box plots compare lot, tester, and site distributions against specification limits.
-- **Engineering limit review:** IQR-based filtering and sigma-range calculations generate proposed limits for review, not automatic implementation.
-- **Standalone HTML reporting:** Interactive dashboards can be reviewed without a dedicated dashboard server.
+- **Synthetic fault injection:** Reproducible examples of drift, tester shifts, increased variation, and excursions.
+- **Data-quality traceability:** Invalid records are logged separately rather than silently discarded.
+- **Lot/tester consistency:** Each synthetic sublot is assigned to one tester with eight test sites.
+- **Interactive diagnostics:** Plotly distributions support comparisons by lot, tester, and site against specification limits.
+- **Limit-review safeguards:** IQR-based filtering generates candidates for engineering evaluation, never automatic limit changes.
+- **Portable reporting:** HTML output does not require a dashboard server.
 
-## 💻 Technology Stack
+## 🧰 Technology Stack
 
-**Python · Pandas · NumPy · Plotly · XlsxWriter · HTML · Statistical Capability Analysis**
-
-## 🚀 Running the Project
-
-See [HOW_TO_RUN.md](HOW_TO_RUN.md) for installation, execution, and generated outputs.
+**Python · Pandas · NumPy · Plotly · XlsxWriter · OpenPyXL · HTML · Statistical Capability Analysis**
