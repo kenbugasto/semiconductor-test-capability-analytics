@@ -72,8 +72,8 @@ Or, from a VS Code/Jupyter notebook cell, install into the active kernel:
 
 **2. Run either version:**
 
-- **Notebook:** Open `Semiconductor_Test_Capability_Portfolio_V6.ipynb`, select the Python kernel, and choose **Run All**.
-- **Python script:** Run `python renesas_semiconductor_spc_portfolio_updated_v6.py` from the project directory.
+- **Notebook:** Open `semiconductor_test_capability_analytics_tool.ipynb`, select the Python kernel, and choose **Run All**.
+- **Python script:** Run `python semiconductor_test_capability_analytics_tool.py` from the project directory.
 
 **3. Review the generated `output/` folder.** Key files include:
 
